@@ -50,6 +50,10 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH0_SECRET,
       issuer: process.env.AUTH0_ISSUER,
     }),
+    SteadyProvider({
+      clientId: process.env.TWITTER_ID,
+      clientSecret: process.env.TWITTER_SECRET,
+    }),
   ],
   theme: {
     colorScheme: "light",
