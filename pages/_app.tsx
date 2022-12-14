@@ -15,7 +15,17 @@ export default function App({
   return (
     <>
       <Head>
-        <Script src="https://steadyhq.com/widget_loader/e7341ba7-b314-40d0-8c3c-5dccd8a7a260" />
+        <Script
+          type="text/javascript"
+          src="https://steadyhq.com/widget_loader/e7341ba7-b314-40d0-8c3c-5dccd8a7a260"
+          strategy="beforeInteractive"
+          onLoad={() => {
+            console.log("code here");
+          }}
+          onError={(e) => {
+            console.log("error: ", e);
+          }}
+        />
       </Head>
       <SessionProvider session={session}>
         <Component {...pageProps} />
