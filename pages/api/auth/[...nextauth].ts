@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
           clientId: process.env.STEADY_CLIENT_ID,
           client_secret: process.env.STEADY_CLIENT_SECRET,
           grant_type: "authorization_code",
-          code: AUTHORIZATION_CODE,
+          code: AUTHORIZATION_CODE, // TODO: get this from the request
           redirect_uri: process.env.STEADY_REDIRECT_URI,
         },
       },
