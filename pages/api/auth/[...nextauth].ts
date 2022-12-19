@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
           client_secret: process.env.STEADY_CLIENT_SECRET,
           grant_type: "authorization_code",
           // code: "AUTHORIZATION_CODE", // TODO: get this from the request
-          redirect_uri: "https://nextjs-nextauth-example.vercel.app/api/auth/callback/steady",
+          redirect_uri: "https://nextjs-nextauth-example.vercel.app/api/auth/token",
         },
       },
       userinfo: "https://steadyhq.com/api/v1/users/me",
