@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
         params: {
           response_type: "code",
           clientId: process.env.STEADY_CLIENT_ID,
-          redirect_uri: process.env.STEADY_REDIRECT_URI,
+          redirect_uri: "https://nextjs-nextauth-example.vercel.app/api/auth/callback/steady",
           scope: "read",
           state: "FakeRandomString", // TODO: generate a random string
         },
@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
           client_secret: process.env.STEADY_CLIENT_SECRET,
           grant_type: "authorization_code",
           // code: "AUTHORIZATION_CODE", // TODO: get this from the request
-          redirect_uri: process.env.STEADY_REDIRECT_URI,
+          redirect_uri: "https://nextjs-nextauth-example.vercel.app/api/auth/callback/steady",
         },
       },
       userinfo: "https://steadyhq.com/api/v1/users/me",
