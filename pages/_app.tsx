@@ -1,7 +1,7 @@
 import { SessionProvider } from "next-auth/react";
 import "./styles.css";
-import Script from "next/script";
-import Head from "next/head";
+// import Script from "next/script";
+// import Head from "next/head";
 
 import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
@@ -14,7 +14,7 @@ export default function App({
 }: AppProps<{ session: Session }>) {
   return (
     <>
-      <Head>
+      {/* <Head>
         <Script
           type="text/javascript"
           src="https://steadyhq.com/widget_loader/e7341ba7-b314-40d0-8c3c-5dccd8a7a260"
@@ -26,7 +26,7 @@ export default function App({
             console.log("steady error: ", e);
           }}
         />
-      </Head>
+      </Head> */}
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>
