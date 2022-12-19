@@ -19,56 +19,66 @@ export const authOptions: NextAuthOptions = {
       issuer: process.env.AUTH0_ISSUER,
     }),
     {
-      id: "steady",
-      name: "steady",
-      type: "oauth",
-      authorization: {
-        url: "https://steadyhq.com/oauth/authorize",
-        params: {
-          response_type: "code",
-          clientId: process.env.STEADY_CLIENT_ID,
-          redirect_uri: process.env.STEADY_REDIRECT_URI,
-          scope: "read",
-          state: "FakeRandomString", // TODO: generate a random string
-        },
-      },
-      token: {
-        url: "https://steadyhq.com/api/v1/oauth/token",
-        params: {
-          clientId: process.env.STEADY_CLIENT_ID,
-          client_secret: process.env.STEADY_CLIENT_SECRET,
-          grant_type: "authorization_code",
-          code: "AUTHORIZATION_CODE", // TODO: get this from the request
-          redirect_uri: process.env.STEADY_REDIRECT_URI,
-        },
-      },
-      userinfo: "https://steadyhq.com/api/v1/users/me",
+      id: 'steady',
+      name: 'Steady',
+      type: 'oauth',
       clientId: process.env.STEADY_CLIENT_ID,
       clientSecret: process.env.STEADY_CLIENT_SECRET,
+      client: { token_endpoint_auth_method: 'client_secret_post' },
+      authorization: 'https://steadyhq.com/oauth/authorize',
+      token: 'https://steadyhq.com/api/v1/oauth/token',
+      userinfo: 'https://steadyhq.com/api/v1/users/me',
       profile(profile) {
         return {
           id: profile.id,
-        };
-      },
-    },
+          name: profile.name,
+        }
+      }
+    }
+    // {
+    //   id: "steady",
+    //   name: "steady",
+    //   type: "oauth",
+    //   idToken: true,
+    //   authorization: {
+    //     url: "https://steadyhq.com/oauth/authorize",
+    //     params: {
+    //       response_type: "code",
+    //       clientId: process.env.STEADY_CLIENT_ID,
+    //       redirect_uri: process.env.STEADY_REDIRECT_URI,
+    //       scope: "read",
+    //       state: "FakeRandomString", // TODO: generate a random string
+    //     },
+    //   },
+    //   token: {
+    //     url: "https://steadyhq.com/api/v1/oauth/token",
+    //     params: {
+    //       clientId: process.env.STEADY_CLIENT_ID,
+    //       client_secret: process.env.STEADY_CLIENT_SECRET,
+    //       grant_type: "authorization_code",
+    //       code: "AUTHORIZATION_CODE", // TODO: get this from the request
+    //       redirect_uri: process.env.STEADY_REDIRECT_URI,
+    //     },
+    //   },
+    //   userinfo: "https://steadyhq.com/api/v1/users/me",
+    //   clientId: process.env.STEADY_CLIENT_ID,
+    //   clientSecret: process.env.STEADY_CLIENT_SECRET,
+    //   profile(profile) {
+    //     return {
+    //       id: profile.id,
+    //     };
+    //   },
+    // },
   ],
   theme: {
     colorScheme: "light",
   },
   callbacks: {
     async jwt({ token }) {
-      console.log("jwt", token);
       token.userRole = "admin";
       return token;
     },
-    async redirect({ url, baseUrl }) {
-      console.log("redirect", url, baseUrl);
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
-    },
+
   },
 };
 
