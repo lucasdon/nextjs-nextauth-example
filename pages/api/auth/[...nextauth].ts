@@ -10,6 +10,7 @@ import Auth0Provider from "next-auth/providers/auth0"
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export const authOptions: NextAuthOptions = {
+  debug: true,
   // https://next-auth.js.org/configuration/providers/oauth
   providers: [
     Auth0Provider({
@@ -19,33 +20,44 @@ export const authOptions: NextAuthOptions = {
     }),
     {
       id: "steady",
-      name: "Steady",
+      name: "steady",
       type: "oauth",
-      // scope: "read",
-      // client_id: process.env.STEADY_CLIENT_ID,
-      // client_secret: process.env.STEADY_CLIENT_SECRET,
-      // redirect_uri: process.env.STEADY_REDIRECT_URI,
-      // grant_type: "authorization_code",
-      authorization: "https://steadyhq.com/oauth/authorize",
-      token: "https://steadyhq.com/oauth/token",
-      userinfo: "https://steadyhq.com/api/v1/user",
+      authorization: {
+        url: "https://steadyhq.com/oauth/authorize",
+        params: {
+          response_type: "code",
+          clientId: process.env.STEADY_CLIENT_ID,
+          redirect_uri: process.env.STEADY_REDIRECT_URI,
+          scope: "read",
+          state: "FakeRandomString", // TODO: generate a random string
+        },
+      },
+      token: {
+        url :"https://steadyhq.com/api/v1/oauth/token",
+        params: {
+          code: "authorization",
+          state: "FakeRandomString",
+        },
+      },
+      userinfo: "https://steadyhq.com/api/v1/users/me",
+      clientId: process.env.STEADY_CLIENT_ID,
+      clientSecret: process.env.STEADY_CLIENT_SECRET,
       profile(profile) {
         return {
           id: profile.id,
-          email: profile?.email,
-        }
+        };
       },
-    }
+    },
   ],
   theme: {
     colorScheme: "light",
   },
   callbacks: {
     async jwt({ token }) {
-      token.userRole = "admin"
-      return token
+      token.userRole = "admin";
+      return token;
     },
   },
-}
+};
 
 export default NextAuth(authOptions)
