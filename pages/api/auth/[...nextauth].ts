@@ -24,7 +24,6 @@ export const authOptions: NextAuthOptions = {
       type: "oauth",
       clientId: process.env.STEADY_CLIENT_ID,
       clientSecret: process.env.STEADY_CLIENT_SECRET,
-      client: { token_endpoint_auth_method: "client_secret_post" },
       authorization: {
         url: "https://steadyhq.com/oauth/authorize",
         params: {
