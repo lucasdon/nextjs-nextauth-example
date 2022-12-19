@@ -18,12 +18,11 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AUTH0_SECRET,
       issuer: process.env.AUTH0_ISSUER,
     }),
+
     {
       id: "steady",
-      name: "Steady",
+      name: "steady",
       type: "oauth",
-      clientId: process.env.STEADY_CLIENT_ID,
-      clientSecret: process.env.STEADY_CLIENT_SECRET,
       authorization: {
         url: "https://steadyhq.com/oauth/authorize",
         params: {
@@ -34,49 +33,25 @@ export const authOptions: NextAuthOptions = {
           state: "FakeRandomString", // TODO: generate a random string
         },
       },
-      token: "https://steadyhq.com/api/v1/oauth/token",
+      token: {
+        url: "https://steadyhq.com/api/v1/oauth/token",
+        params: {
+          clientId: process.env.STEADY_CLIENT_ID,
+          client_secret: process.env.STEADY_CLIENT_SECRET,
+          grant_type: "authorization_code",
+          // code: "AUTHORIZATION_CODE", // TODO: get this from the request
+          redirect_uri: process.env.STEADY_REDIRECT_URI,
+        },
+      },
       userinfo: "https://steadyhq.com/api/v1/users/me",
+      clientId: process.env.STEADY_CLIENT_ID,
+      clientSecret: process.env.STEADY_CLIENT_SECRET,
       profile(profile) {
         return {
           id: profile.id,
-          name: profile.name,
         };
       },
     },
-    // {
-    //   id: "steady",
-    //   name: "steady",
-    //   type: "oauth",
-    //   idToken: true,
-    //   authorization: {
-    //     url: "https://steadyhq.com/oauth/authorize",
-    //     params: {
-    //       response_type: "code",
-    //       clientId: process.env.STEADY_CLIENT_ID,
-    //       redirect_uri: process.env.STEADY_REDIRECT_URI,
-    //       scope: "read",
-    //       state: "FakeRandomString", // TODO: generate a random string
-    //     },
-    //   },
-    //   token: {
-    //     url: "https://steadyhq.com/api/v1/oauth/token",
-    //     params: {
-    //       clientId: process.env.STEADY_CLIENT_ID,
-    //       client_secret: process.env.STEADY_CLIENT_SECRET,
-    //       grant_type: "authorization_code",
-    //       code: "AUTHORIZATION_CODE", // TODO: get this from the request
-    //       redirect_uri: process.env.STEADY_REDIRECT_URI,
-    //     },
-    //   },
-    //   userinfo: "https://steadyhq.com/api/v1/users/me",
-    //   clientId: process.env.STEADY_CLIENT_ID,
-    //   clientSecret: process.env.STEADY_CLIENT_SECRET,
-    //   profile(profile) {
-    //     return {
-    //       id: profile.id,
-    //     };
-    //   },
-    // },
   ],
   theme: {
     colorScheme: "light",
