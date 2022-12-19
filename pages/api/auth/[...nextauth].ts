@@ -33,10 +33,13 @@ export const authOptions: NextAuthOptions = {
         },
       },
       token: {
-        url :"https://steadyhq.com/api/v1/oauth/token",
+        url: "https://steadyhq.com/api/v1/oauth/token",
         params: {
-          code: "authorization",
-          state: "FakeRandomString",
+          clientId: process.env.STEADY_CLIENT_ID,
+          client_secret: process.env.STEADY_CLIENT_SECRET,
+          grant_type: "authorization_code",
+          code: AUTHORIZATION_CODE,
+          redirect_uri: process.env.STEADY_REDIRECT_URI,
         },
       },
       userinfo: "https://steadyhq.com/api/v1/users/me",
@@ -60,11 +63,11 @@ export const authOptions: NextAuthOptions = {
     async redirect({ url, baseUrl }) {
       console.log("redirect", url, baseUrl);
       // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url
-      return baseUrl
-    }
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
   },
 };
 
